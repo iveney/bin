@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# put the unspecified tags here...
+ARTIST="Lisa Ono"
+ALBUM="Cheek To Cheek - Jazz Standards from RIO"
+GENRE="Jazz"
+YEAR=""
+TOTAL=`ls *.mp3 | wc -l`
+
+for i in *.mp3
+do
+	echo "Processing $i"
+	#set - $(IFS=" ."; echo $i) // split according to IFS
+	#ARTIST=$1
+	#TRACK=$3
+	#NAME=$4
+	TRACK=`echo "$i" | cut -d ' ' -f 1`
+	NAME=`echo "$i" | cut -d ' ' -f 2-`
+	mid3v2 -a "$ARTIST" \
+	       -t "$NAME" \
+	       -A "$ALBUM" \
+	       -g "$GENRE" \
+	       -T "$TRACK/$TOTAL" "$i"
+done

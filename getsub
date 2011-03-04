@@ -1,0 +1,16 @@
+#!/bin/bash
+SSCL=/Users/iveney/bin/sscl
+[ $# -gt 0 ] || { echo "usage: `basename $0` filename"; exit 1; }
+
+for ARG in "$@"
+do
+	movie_filename=`basename "$movie_file_path"`
+	movie_path=`dirname "$movie_file_path"`
+	if [ ! -e "${movie_file_path%.*}.chn.srt" ];
+	then
+		$SSCL --videl-file "$ARG" --pull >/dev/null 2>&1
+		ls "$HOME/Library/Application Support/SPlayerX/SVPSub/${movie_filename%.*}.chn.srt" >/dev/null 2>&1 \
+		&& mv "$HOME/Library/Application Support/SPlayerX/SVPSub/${movie_filename%.*}".*.srt "$movie_path" \
+		|| echo $movie_file_path subtitle not found
+	fi
+done

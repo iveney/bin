@@ -1,0 +1,5 @@
+#!/bin/bash
+
+TMP=`mktemp -t tmp`
+iconv -f gbk -t utf8 $1 > $TMP
+mv $TMP $1

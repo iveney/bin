@@ -1,5 +1,6 @@
 #!/bin/bash
+# Convert the text file from gbk to utf8
 
 TMP=`mktemp -t tmp`
-iconv -f gbk -t utf8 $1 > $TMP
-mv $TMP $1
+iconv -f gbk -t utf8 "$1" > "$TMP"
+mv "$TMP" "$1"

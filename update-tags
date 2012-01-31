@@ -1,0 +1,41 @@
+#!/bin/bash
+
+ext=m4a
+# choose program
+case $ext in
+m4a)
+	PROG=m4atag
+	;;
+mp3)
+	PROG=mid3v2
+	;;
+*)
+	PROG=mid3v2
+	;;
+esac
+
+ARTIST="南拳妈妈"
+ALBUM="优の良曲 南搞小孩"
+GENRE="Pop"
+YEAR=""
+TOTAL=`ls *.$ext | wc -l`
+
+for i in *.$ext
+do
+	echo "Processing '$i'"
+	# split according to IFS
+	#set - $(IFS="-"; echo $i)
+	IFS="-."
+	read a b c d e <<< "$i"
+	TRACK="$c"
+	NAME="$d"
+
+	#TRACK=`echo "$i" | cut -d ' ' -f 1`
+	#NAME=`echo "$i" | cut -d ' ' -f 2-`
+
+	$PROG  -a "$ARTIST" \
+	       -t "$NAME" \
+	       -A "$ALBUM" \
+	       -g "$GENRE" \
+	       -T "$TRACK/$TOTAL" "$i"
+done

@@ -1,0 +1,100 @@
+#!/usr/bin/env python
+# Author: Zigang Xiao <iveney # gmail.com>
+# Date  : 07/12/2011
+
+"""A python utility (wrapper for mutagen.m4a) to udpate tags for m4a file type.
+
+Relies on m4a module in mutagen.
+"""
+
+from mutagen.m4a import M4A
+from sys import argv
+from string import atoi
+import argparse
+
+tags = {'album'  : '\xa9alb',
+        'artist' : '\xa9ART',
+        'year'   : '\xa9day',
+        'title'  : '\xa9nam',
+        'comment': '\xa9cmt',
+        'group'  : '\xa9grp',
+        'writer' : '\xa9wrt',
+        'genre'  : '\xa9gen',
+        'track'  : 'trkn',
+        'aart'   : 'aART',
+        'disk'   : 'disk',
+        'cpil'   : 'cpil',
+        'tempo'  : 'tmpo',
+        }
+
+class ParsePair(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        try:
+            values = map(int, values.split('/'))
+            if len(values) == 1:
+                values = values + [0]
+            elif len(values) > 2:
+                raise
+        except:
+            print "Error: format should be 'num/num'"
+            parser.print_help()
+            exit(1)
+        setattr(namespace, self.dest, values)
+
+class ParseYesNo(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        values = (values == 'y')
+        setattr(namespace, self.dest, values)
+
+def get_args():
+    parser = argparse.ArgumentParser(description = 'm4a/aac tag updater')
+    parser.add_argument('-a', '--artist', 
+            help = 'artist name')
+    parser.add_argument('-A', '--album',
+            help = 'album name')
+    parser.add_argument('-y', '--year',
+            metavar = 'YYYY',
+            help = 'set the year')
+    parser.add_argument('-t', '--title',
+            help = 'song title')
+    parser.add_argument('-T', '--track', 
+            metavar = 'num/num',
+            help = 'set the number/(optional) total tracks',
+            action = ParsePair)
+    parser.add_argument('-c', '--comment',
+            help = 'set the comment')
+    parser.add_argument('-G', '--group',
+            help = 'set the grouping')
+    parser.add_argument('-w', '--writer',
+            help = 'set composer')
+    parser.add_argument('-g', '--genre',
+            help = 'set genere')
+    parser.add_argument('--aart', 
+            help = 'set album artist')
+    parser.add_argument('-d', '--disk',
+            help = 'set the disk/(optional) total disks',
+            action = ParsePair)
+    parser.add_argument('-C', '--cpil',
+            help = "set is part of a compilation",
+            choices = 'yn',
+            action = ParseYesNo)
+    parser.add_argument('--tempo', type = int,
+            help = 'set tempo')
+    parser.add_argument('filename', 
+            help = 'The input file')
+    return vars(parser.parse_args())
+
+if __name__ == '__main__':
+    args = get_args()
+
+    audio = M4A(args['filename'])
+    for key in args:
+        if key == 'filename' or args[key] == None:
+            continue
+        tag = tags[key]
+        value = args[key]
+        if type(value) == str:
+            value = unicode(value, 'utf8')
+        #print key, tag, value, type(value)
+        audio[tag] = value
+    audio.save()

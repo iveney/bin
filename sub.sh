@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MOVIE_DIR=/Users/iveney/Movies/
+MOVIE_DIR=/Users/iveney/Movies
 MOVIE_LIST=`mktemp -t movielist`
 SSCL=/Users/iveney/bin/sscl
  

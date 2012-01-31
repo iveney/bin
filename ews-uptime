@@ -1,0 +1,24 @@
+#!/bin/bash
+# Chekc the uptime for the UIUC EWS machines (linux[1-4])
+
+ARCH=`uname`
+TIMEOUT=timeout
+FAILURE_CODE=124
+
+# My coreutils is installed via homebrew and the commands are 
+# prefixed with g
+if (($ARCH == "Darwin")); 
+then
+   TIMEOUT=gtimeout
+fi 
+
+for i in `seq 1 4`
+do
+	echo "Linux $i uptime:"
+	$TIMEOUT 5 ssh "linux$i" uptime
+    if (("$?" == $FAILURE_CODE));
+    then
+        echo "timeout."
+    fi
+    echo 
+done

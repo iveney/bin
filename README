@@ -1,0 +1,14 @@
+My scripts and utilities in ~/bin
+=================================
+
+fcopy
+-----
+Copy a file to OSX clipboard from clipboard. Can use CMD-V to paste it later.
+Requires realpath:
+
+  https://github.com/iveney/realpath-osx
+
+Install realpath from my homebrew tap:
+
+  https://github.com/iveney/homebrew-mocha
+

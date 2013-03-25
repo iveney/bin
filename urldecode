@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- 
 
 require 'uri'
-require 'iconv'
+#require 'iconv'
 
 if ARGV.size <= 0 
 	puts "Usage: ./urldecode url ..."
@@ -11,5 +11,6 @@ end
 
 ARGV.each do |a|
 	str=URI.decode("#{a}")
-	print Iconv.conv("utf-8", "gbk",str)
+	print str.encode("utf-8", "gbk")
+	#print Iconv.conv("utf-8", "gbk",str)
 end

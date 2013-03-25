@@ -1,5 +1,5 @@
 #!/bin/bash
-# Chekc the uptime for the UIUC EWS machines (linux[1-4])
+# Check the uptime for the UIUC EWS machines (linux[1-4])
 
 ARCH=`uname`
 TIMEOUT=timeout
@@ -12,7 +12,7 @@ then
    TIMEOUT=gtimeout
 fi 
 
-for i in `seq 1 4`
+for i in `seq 1 7`
 do
 	echo "Linux $i uptime:"
 	$TIMEOUT 5 ssh "linux$i" uptime

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+state=`defaults read com.apple.Finder AppleShowAllFiles`
+if [[ $state == 'TRUE' ]]; then
+	state='FALSE'
+else
+	state='TRUE'
+fi
+
+defaults write com.apple.Finder AppleShowAllFiles "$state"
+killall Finder

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+KLAYOUT_APP_DIR=/Applications
+binary="$KLAYOUT_APP_DIR/klayout.app/Contents/MacOS/klayout"
+exec "$binary" ${1:+"$@"}

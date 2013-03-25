@@ -1,0 +1,6 @@
+#!/usr/bin/osascript
+on run args
+  set fullpath to do shell script "realpath " & (first item of args)
+  set theFile to POSIX file fullpath
+  set the clipboard to theFile
+end

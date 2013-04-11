@@ -1,0 +1,9 @@
+#!/usr/bin/osascript
+on run args
+	set fullpath to do shell script "realpath " & (first item of args)
+	set theFile to POSIX file fullpath
+	tell application "Finder"
+		reveal theFile
+		activate
+	end tell
+end
